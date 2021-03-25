@@ -51,6 +51,11 @@
                                (digest-with-pkcs1-padding digest-spec message
                                                           :start start :end end :key-length key-length)))))
 
+(defun ecdsa-sign-message (digest-spec private-key message &key (start 0) (end (length message)))
+  (let ((digest-in-bytes (ironclad:digest-sequence digest-spec (ironclad:ascii-string-to-byte-array message))))
+    (ironclad:sign-message private-key digest-in-bytes :start start :end end)))
+
+
 (defun hmac-verify-signature (digest-spec verification-key message signature
                               &key (start 0) (end (length message)))
   (equalp (hmac-sign-message digest-spec verification-key message
@@ -108,6 +113,8 @@
        (rsa-sign-message :sha384 key message :start start :end end :pss t))
       (:ps512
        (rsa-sign-message :sha512 key message :start start :end end :pss t))
+      (:es256
+       (ecdsa-sign-message :sha256 key message :start start :end end))
       (:none ""))))
 
 (defun sign (algorithm key payload &key headers)

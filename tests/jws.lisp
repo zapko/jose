@@ -55,6 +55,12 @@
 (defvar *private-key*
   (asdf:system-relative-pathname :jose #P"tests/keys/rsa-priv.pem"))
 
+(defvar *ecdsa-public-key*
+  (asdf:system-relative-pathname :jose #P"tests/keys/ecdsa-p-256-pub.pem"))
+(defvar *ecdsa-private-key*
+  (asdf:system-relative-pathname :jose #P"tests/keys/ecdsa-p-256-priv.pem"))
+
+
 (deftest test-rsa
   (let ((token
           (jose/jws:sign :rs256 (pem:read-from-file *private-key*) "test")))

@@ -52,7 +52,7 @@
                                                           :start start :end end :key-length key-length)))))
 
 (defun ecdsa-sign-message (digest-spec private-key message &key (start 0) (end (length message)))
-  (let ((digest-in-bytes (ironclad:digest-sequence digest-spec (ironclad:ascii-string-to-byte-array message))))
+  (let ((digest-in-bytes (ironclad:digest-sequence digest-spec message)))
     (ironclad:sign-message private-key digest-in-bytes :start start :end end)))
 
 
